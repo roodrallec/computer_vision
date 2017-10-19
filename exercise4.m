@@ -67,4 +67,9 @@ subplot(1,3,3), imshow(gauss_large);
 % intense the blur on the image. This is because the information in the
 % image is being multiplied by a larger value.
 
+rgb = imread('3channels.jpg');
+filter_1 = [1,1,1];
+filter_1_rgb = imfilter(rgb, filter_1);
+filter_gauss_rgb = imgaussfilt(rgb,2);
+
 
