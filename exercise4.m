@@ -30,48 +30,81 @@ subplot(2,2,4), imhist(reCorals);
 % defined distribution greyscale, where as the resized image has a more
 % jagged distribution.
 
+% Emer: not sure about your comment above. The histogram shows the
+% frequency of pixels for each level of intensity. The scaled down image
+% has less pixels, so the counts (absolute freq.) will be lower.  
+% We should compare the shape and if we want to plot it, then rescaled to
+% desnity (relative freq.) is required.
+coralsN = imhist(CORALS);
+reCoralsN = imhist(reCorals);
+figure
+plot([coralsN/sum(coralsN) reCoralsN/sum(reCoralsN)], 'LineWidth',2);
+legend('Original','Scaled 0.25')
+xlabel('Intensity'), ylabel('Relative Frequency'), title('Image Histogram')
+% Commet: both lines are very close to each other which means that scaling the
+% image down do not affect the intensity distribution of the image.
+
 % 4. Scale back up
 reCorals = imresize(reCorals, 4);
 imshow(reCorals);
 % Comment: here we see that even though the image is now the same size as the
-% original again, the definition is still lost.
+% original again, the definition (information) is still lost.
 
 % 5. Filtering
-USER_DEFINED_FILTER = [[3 5 3];[1 6 1];[2 7 3]]/31;
-filterCorals = imfilter(CORALS, USER_DEFINED_FILTER);
+VECTOR_FILTER = ones(1,3);
+filterCorals = imfilter(CORALS, VECTOR_FILTER);
 gaussFilterCorals = imgaussfilt(CORALS,2);
 % plotting the images against the original
-subplot(1,3,1), imshow(CORALS);
-subplot(1,3,2), imshow(filterCorals);
-subplot(1,3,3), imshow(gaussFilterCorals);
-% Comment: here we see that filter_1 has made the image brighter and has
+subplot(1,3,1), imshow(CORALS), title("Original");
+subplot(1,3,2), imshow(filterCorals), title("Vector filter: [1 1 1]");
+subplot(1,3,3), imshow(gaussFilterCorals), title("Gaussian filter: \sigma = 2");
+% Comment: here we see that USER_DEFINED_FILTER has made the image brighter and has
 % lost definition (for example the lines can no longer be seen on the fish)
-% The gaussian filter has not made the image brighter, but has blurred the
-% image so we can neither see the lines on the fish.
-% Different sized filters:
-smallFilter = imfilter(CORALS, ones(1));
-mediumFilter = imfilter(CORALS, ones(10));
-largeFilter = imfilter(CORALS, ones(100));
-subplot(1,3,1), imshow(smallFilter);
-subplot(1,3,2), imshow(mediumFilter);
-subplot(1,3,3), imshow(largeFilter);
-% Comment: the larger the ones filter, the more intense effect it has, in
-% this case the brighter the image becomes.
-smallGauss = imgaussfilt(CORALS,1);
-mediumGauss = imgaussfilt(CORALS,10);
-largeGauss = imgaussfilt(CORALS,100);
-subplot(1,3,1), imshow(smallGauss);
-subplot(1,3,2), imshow(mediumGauss);
-subplot(1,3,3), imshow(largeGauss);
-% Comment: like the previous filter, the larger the gauss filter, the more
-% intense the blur on the image. This is because the information in the
-% image is being multiplied by a larger value.
+% As the vector is not normalised, the mask modifies the pixels by adding
+% the value of the left and right pixels for each channel. Thus, the
+% value for each pixel is increased making a whiten and slighlty blur image.   
+% The gaussian filter has not made the image brighter as the weights are normalised,
+% but has only blurred the image so we can neither see the lines on the fish.
+openfig("figure4_5.fig")
+
+% Increasing the size will make the in the mask vector, will make it whiter
+% and more blurred by using only pixels in the horizontal axis. In other
+% hand, increasing the value of sigma, the wider the gaussian distribution 
+% will be, which takes further pixels (more information). As a result, the
+% image will be blurrer with  better image choerence as the bell shape of 
+% the weights reflects the idea that the pixels sourranding to the central 
+% pixel are more relavant than further away pixels.
+LARGER_VECTOR_FILTER = ones(1,30);
+filterCorals = imfilter(CORALS, LARGER_VECTOR_FILTER);
+gaussFilterCorals = imgaussfilt(CORALS,9);
+% plotting the images against the original
+subplot(1,3,1), imshow(CORALS), title("Original");
+subplot(1,3,2), imshow(filterCorals), title("Vector filter: ones(1,30)");
+subplot(1,3,3), imshow(gaussFilterCorals), title("Gaussian filter: \sigma = 9");
 
 % 6. Filtering RGB
+% Notes: Differences among CV functions
+% https://es.mathworks.com/matlabcentral/answers/17529-what-is-the-difference-between-conv2-filter2-and-imfilter
+% Correlation vs Convolution!
+% https://camo.githubusercontent.com/91351c530d7b04be12fe0e8c3eda80412af5122c/68747470733a2f2f73616e646970616e7765622e66696c65732e776f726470726573732e636f6d2f323031372f30352f696d3131322e706e67
 rgb = imread('3channels.jpg');
-filterRgb = imfilter(rgb, USER_DEFINED_FILTER, "conv");
-subplot(1,2,1), imshow(rgb);
-subplot(1,2,2), imshow(filterRgb);
+
+% JPG has lost definition, better to create it from scratch:
+img1 = zeros([200, 200]);
+img1(1:200,100:200) = 1;
+img2 = zeros([200, 200]);
+img2(100:200,1:200) = 1;
+img3 = zeros([200, 200]);
+img3(1:100,1:100) = 1;
+img3 = zeros([200, 200]);
+img3(1:100,1:100) = 1;
+rgb = cat(3, img1, img2, img3);
+
+filterRgbCorr = imfilter(rgb, LARGER_VECTOR_FILTER);
+filterRgbConv = imfilter(rgb, LARGER_VECTOR_FILTER, "conv");
+subplot(1,3,1), imshow(rgb), title("Original");
+subplot(1,3,2), imshow(filterRgbCorr), title("Correlation Filter: ones(1,30)");
+subplot(1,3,3), imshow(filterRgbConv), title("Convolution Filter: ones(1,30)");
 % You can filter the RGB image
 % The mask should have the same dimensions as the image, one for each color
 
