@@ -99,13 +99,19 @@ img3(1:100,1:100) = 1;
 img3 = zeros([200, 200]);
 img3(1:100,1:100) = 1;
 rgb = cat(3, img1, img2, img3);
+gray = rgb2gray(rgb);
 
-filterRgbCorr = imfilter(rgb, LARGER_VECTOR_FILTER);
+filterRgbCorr = imfilter(rgb, LARGER_VECTOR_FILTER, "corr");
 filterRgbConv = imfilter(rgb, LARGER_VECTOR_FILTER, "conv");
-subplot(1,3,1), imshow(rgb), title("Original");
-subplot(1,3,2), imshow(filterRgbCorr), title("Correlation Filter: ones(1,30)");
-subplot(1,3,3), imshow(filterRgbConv), title("Convolution Filter: ones(1,30)");
-% You can filter the RGB image
+filterGrayCorr = imfilter(gray, LARGER_VECTOR_FILTER, "corr");
+filterGrayConv = imfilter(gray, LARGER_VECTOR_FILTER, "conv");
+subplot(2,3,1), imshow(rgb), title("Original RGB");
+subplot(2,3,2), imshow(filterRgbCorr), title("RBG Correlation Filter: ones(1,30)");
+subplot(2,3,3), imshow(filterRgbConv), title("RGB Convolution Filter: ones(1,30)");
+subplot(2,3,4), imshow(gray), title("Original Gray");
+subplot(2,3,5), imshow(filterGrayCorr), title("Gray Correlation Filter: ones(1,30)");
+subplot(2,3,6), imshow(filterGrayConv), title("Gray Convolution Filter: ones(1,30)");
+% You can filter the RGB image. The Gray scale image 
 % The mask should have the same dimensions as the image, one for each color
 
 % 7.
@@ -134,26 +140,28 @@ subplot(1,3,3), imshow(filterRgbConv), title("Convolution Filter: ones(1,30)");
 maskA = [1 1 1 1 1]/5;
 maskB = [1;1;1;1;1]/5;
 maskC = [[1 1 1 1 1]; [1 1 1 1 1]; [1 1 1 1 1]; [1 1 1 1 1]; [1 1 1 1 1]]/25;
-subplot(1,3,1), imshow(imfilter(CORALS, maskA));
-subplot(1,3,2), imshow(imfilter(CORALS, maskB));
-subplot(1,3,3), imshow(imfilter(CORALS, maskC));
+subplot(1,4,1), imshow(CORALS), title("Original");
+subplot(1,4,2), imshow(imfilter(CORALS, maskA)), title("Mask: [1 1 1 1 1]/5");
+subplot(1,4,3), imshow(imfilter(CORALS, maskB)), title("Mask: [1;1;1;1;1]/5");
+subplot(1,4,4), imshow(imfilter(CORALS, maskC)), title("Mask: [[1 1 1 1 1]; ... /25");
 
 % 8.Apply the filter several times in order to observe the effects 
 onceFiltered = imfilter(CORALS, USER_DEFINED_FILTER);
 twiceFiltered = imfilter(onceFiltered, USER_DEFINED_FILTER);
 thriceFiltered = imfilter(twiceFiltered, USER_DEFINED_FILTER);
-subplot(1,3,1), imshow(onceFiltered);
-subplot(1,3,2), imshow(twiceFiltered);
-subplot(1,3,3), imshow(thriceFiltered);
+subplot(1,4,1), imshow(CORALS), title("Original");
+subplot(1,4,2), imshow(onceFiltered), title("Filter x1");
+subplot(1,4,3), imshow(twiceFiltered), title("Filter x2");
+subplot(1,4,4), imshow(thriceFiltered), title("Filter x3");
 % It gets blurrier and detail is lost as it is filtered more
 % times
 
 % 9. Subtract the original and smoothed images in order to illustrate the
 % difference between them. Use subploit in order to show the original
 % smooth and the difference image in the same figure
-subplot(1,3,1), imshow(CORALS);
-subplot(1,3,2), imshow(onceFiltered);
-subplot(1,3,3), imshow(CORALS - onceFiltered);
+subplot(1,3,1), imshow(CORALS), title("Original");
+subplot(1,3,2), imshow(onceFiltered), title("Filtered");
+subplot(1,3,3), imshow(CORALS - onceFiltered), title("Original - Filtered");
 % We see that in the image that is the difference between them, the lines
 % of the image stand out more
 
