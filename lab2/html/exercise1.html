@@ -1,0 +1,208 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>exercise1</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-10-23"><meta name="DC.source" content="exercise1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% - - - - - -</span>
+<span class="comment">% MAI CV</span>
+<span class="comment">% Exercises Lab 2</span>
+<span class="comment">% Author name: Jorge Alexander</span>
+<span class="comment">% - - - - - -</span>
+</pre><pre class="codeinput"><span class="comment">%- - - - - -</span>
+<span class="comment">%Exercise 1: Determine the optimal edges</span>
+<span class="comment">%- - - - - -</span>
+<span class="comment">% Read the image "starbuck.jpg" and find its edges using matlab function</span>
+<span class="comment">% edge.</span>
+STARBUCK = imread(<span class="string">'./images_video/starbuck.jpg'</span>);
+starbuckEdge = edge(STARBUCK(:,:,1));
+imshow(starbuckEdge)
+
+<span class="comment">% Apply different operators and find the optimal parameters for each of</span>
+<span class="comment">% them</span>
+<span class="comment">% In all cases, edge chooses the default threshold heuristically, depending on the input data.</span>
+<span class="comment">% The best way to vary the threshold is to run edge once, capturing the calculated threshold as the second output argument.</span>
+<span class="comment">% Then, starting from the value calculated by edge, adjust the threshold higher (fewer edge pixels) or lower (more edge pixels).</span>
+
+<span class="comment">% Sobel</span>
+<span class="comment">% threshold = []; % return all edges that are stronger than threshold</span>
+direction = <span class="string">'both'</span>; <span class="comment">% specify the direction in which the function looks for edges in the image</span>
+thinning = <span class="string">'thinning'</span>; <span class="comment">% 'nothinning'; % specify whether to skip the additional edge-thinning stage</span>
+
+[sobel, threshold] = edge(STARBUCK(:,:,1), <span class="string">'Sobel'</span>, [], direction, thinning);  <span class="comment">% to get threshold value</span>
+[sobel, threshold] = edge(STARBUCK(:,:,1), <span class="string">'Sobel'</span>, threshold, direction, thinning);
+subplot(1,1,1), imshow(sobel), title(<span class="string">'Sobel'</span>);
+
+
+
+[prewitt, threshold] = edge(STARBUCK(:,:,1), <span class="string">'Prewitt'</span>, [], direction, thinning);
+[prewitt, threshold] = edge(STARBUCK(:,:,1), <span class="string">'Prewitt'</span>, threshold, direction, thinning);
+subplot(1,1,1), imshow(prewit), title(<span class="string">'Prewitt'</span>);
+
+sigma = 2;    <span class="comment">% Scalar value that specifies the standard deviation of the Laplacian of Gaussian filter.</span>
+                <span class="comment">% The default is 2. The size of the filter is n-by-n, where n=ceil(sigma*3)*2+1.</span>
+[log, threshold] = edge(STARBUCK(:,:,1), <span class="string">'log'</span>, [], sigma);
+[log, threshold] = edge(STARBUCK(:,:,1), <span class="string">'log'</span>, threshold, sigma);
+subplot(1,1,1), imshow(log), title(<span class="string">'Laplacian of Gaussian'</span>);
+
+
+
+roberts = edge(STARBUCK(:,:,1), <span class="string">'Roberts'</span>);
+zerocross = edge(STARBUCK(:,:,1), <span class="string">'zerocross'</span>);
+canny = edge(STARBUCK(:,:,1), <span class="string">'Canny'</span>);
+
+subplot(2,3,1), imshow(sobel), title(<span class="string">'Sobel'</span>);
+subplot(2,3,2), imshow(prewitt), title(<span class="string">'Prewitt'</span>);
+subplot(2,3,4), imshow(log), title(<span class="string">'Laplacian of Gaussian'</span>);
+
+subplot(2,3,3), imshow(roberts), title(<span class="string">'Roberts'</span>);
+subplot(2,3,5), imshow(zerocross), title(<span class="string">'Zerocross'</span>);
+subplot(2,3,6), imshow(canny), title(<span class="string">'Canny'</span>);
+
+<span class="comment">% How many methods to obtain the edges of the image are implemented by the function edge?</span>
+<span class="comment">% 6: Sobel, Prewitt, Laplacian of Gaussian, Roberts, Zerocross and Canny</span>
+
+<span class="comment">% Which is the best edge detector?</span>
+
+<span class="comment">% What are the advantages and disadvantages when extracting edges on the</span>
+<span class="comment">% different images?</span>
+
+<span class="comment">% Discuss if parameters should be changed for different images.</span>
+</pre><pre class="codeoutput error">Undefined function or variable 'prewit'.
+
+Error in exercise1 (line 37)
+subplot(1,1,1), imshow(prewit), title('Prewitt');
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% - - - - - - 
+% MAI CV
+% Exercises Lab 2
+% Author name: Jorge Alexander
+% - - - - - - 
+
+
+%%
+%- - - - - - 
+%Exercise 1: Determine the optimal edges
+%- - - - - - 
+% Read the image "starbuck.jpg" and find its edges using matlab function
+% edge.
+STARBUCK = imread('./images_video/starbuck.jpg');
+starbuckEdge = edge(STARBUCK(:,:,1));
+imshow(starbuckEdge)
+
+% Apply different operators and find the optimal parameters for each of
+% them
+% In all cases, edge chooses the default threshold heuristically, depending on the input data. 
+% The best way to vary the threshold is to run edge once, capturing the calculated threshold as the second output argument. 
+% Then, starting from the value calculated by edge, adjust the threshold higher (fewer edge pixels) or lower (more edge pixels).
+
+% Sobel
+% threshold = []; % return all edges that are stronger than threshold
+direction = 'both'; % specify the direction in which the function looks for edges in the image
+thinning = 'thinning'; % 'nothinning'; % specify whether to skip the additional edge-thinning stage
+
+[sobel, threshold] = edge(STARBUCK(:,:,1), 'Sobel', [], direction, thinning);  % to get threshold value
+[sobel, threshold] = edge(STARBUCK(:,:,1), 'Sobel', threshold, direction, thinning);
+subplot(1,1,1), imshow(sobel), title('Sobel');
+
+
+
+[prewitt, threshold] = edge(STARBUCK(:,:,1), 'Prewitt', [], direction, thinning);
+[prewitt, threshold] = edge(STARBUCK(:,:,1), 'Prewitt', threshold, direction, thinning);
+subplot(1,1,1), imshow(prewit), title('Prewitt');
+
+sigma = 2;    % Scalar value that specifies the standard deviation of the Laplacian of Gaussian filter. 
+                % The default is 2. The size of the filter is n-by-n, where n=ceil(sigma*3)*2+1.
+[log, threshold] = edge(STARBUCK(:,:,1), 'log', [], sigma);
+[log, threshold] = edge(STARBUCK(:,:,1), 'log', threshold, sigma);
+subplot(1,1,1), imshow(log), title('Laplacian of Gaussian');
+
+
+
+roberts = edge(STARBUCK(:,:,1), 'Roberts');
+zerocross = edge(STARBUCK(:,:,1), 'zerocross');
+canny = edge(STARBUCK(:,:,1), 'Canny');
+
+subplot(2,3,1), imshow(sobel), title('Sobel');
+subplot(2,3,2), imshow(prewitt), title('Prewitt');
+subplot(2,3,4), imshow(log), title('Laplacian of Gaussian');
+
+subplot(2,3,3), imshow(roberts), title('Roberts');
+subplot(2,3,5), imshow(zerocross), title('Zerocross');
+subplot(2,3,6), imshow(canny), title('Canny');
+
+% How many methods to obtain the edges of the image are implemented by the function edge?
+% 6: Sobel, Prewitt, Laplacian of Gaussian, Roberts, Zerocross and Canny
+
+% Which is the best edge detector?
+
+% What are the advantages and disadvantages when extracting edges on the
+% different images?
+
+% Discuss if parameters should be changed for different images.
+
+##### SOURCE END #####
+--></body></html>
