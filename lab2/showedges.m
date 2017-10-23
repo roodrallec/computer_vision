@@ -1,17 +1,6 @@
 function showedges(imageFilename)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
-
-    function overlapedImage = overlapedges(rgbImage, edges)
-        redCh = rgbImage(:,:,1);
-        greenCh = rgbImage(:,:,2);
-        blueCh = rgbImage(:,:,3);
-        redCh(edges) = 255;
-        greenCh(edges) = 0;
-        blueCh(edges) = 0;
-        overlapedImage = cat(3, redCh, greenCh, blueCh);      
-    end
-
 rawImage = imread(imageFilename);
 if(ndims(rawImage)==2)
     ch = rawImage ./ 3;
