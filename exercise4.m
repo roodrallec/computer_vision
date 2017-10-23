@@ -1,7 +1,7 @@
 % - - - - - - 
 % MAI CV
 % Exercises Lab 1
-% Author name: Jorge Alexander
+% Author name: Emer Rodriguez Formisano and Jorge Alexander
 % - - - - - - 
 
 
@@ -14,8 +14,8 @@ CORALS = imread('images/corals.jpg');
 
 % 2. loss of details on resize  
 reCorals = imresize(CORALS, 0.25);
-subplot(1,2,1), imshow(CORALS);
-subplot(1,2,2), imshow(reCorals);
+subplot(1,2,1), imshow(CORALS), title("Original");
+subplot(1,2,2), imshow(reCorals), title("Resized");
 
 % 3. Histograms
 subplot(2,2,1), imshow(CORALS);
@@ -146,15 +146,14 @@ subplot(1,4,3), imshow(imfilter(CORALS, maskB)), title("Mask: [1;1;1;1;1]/5");
 subplot(1,4,4), imshow(imfilter(CORALS, maskC)), title("Mask: [[1 1 1 1 1]; ... /25");
 
 % 8.Apply the filter several times in order to observe the effects 
-onceFiltered = imfilter(CORALS, USER_DEFINED_FILTER);
-twiceFiltered = imfilter(onceFiltered, USER_DEFINED_FILTER);
-thriceFiltered = imfilter(twiceFiltered, USER_DEFINED_FILTER);
+onceFiltered = imfilter(CORALS, VECTOR_FILTER);
+twiceFiltered = imfilter(onceFiltered, VECTOR_FILTER);
+thriceFiltered = imfilter(twiceFiltered, VECTOR_FILTER);
 subplot(1,4,1), imshow(CORALS), title("Original");
 subplot(1,4,2), imshow(onceFiltered), title("Filter x1");
 subplot(1,4,3), imshow(twiceFiltered), title("Filter x2");
 subplot(1,4,4), imshow(thriceFiltered), title("Filter x3");
-% It gets blurrier and detail is lost as it is filtered more
-% times
+% It gets witer due to applying the effect describe in 4.5 several times.
 
 % 9. Subtract the original and smoothed images in order to illustrate the
 % difference between them. Use subploit in order to show the original
