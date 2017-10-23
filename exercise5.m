@@ -1,7 +1,7 @@
 % - - - - - - 
 % MAI CV
 % Exercises Lab 1
-% Author name: Jorge Alexander
+% Author name: Jorge Alexander and Emer Rodriguez Formisano
 % - - - - - - 
 
 
