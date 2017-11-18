@@ -1,7 +1,7 @@
 % - - - - - - 
 % MAI CV
 % Exercises Lab 5
-% Author name: 
+% Author name: Emer Rodriguez Formisano and Jorge Alexander
 % - - - - - - 
 % >> OBJECTIVE: 
 % 1) Analize the code
@@ -27,6 +27,7 @@ h1 = 10; h2 = 20;                   % height of the rectangles
 m1 = zeros(L,L);
 m2 = zeros(L,L);
 
+% Figure 1
 m1(d1+1:d1+h1,d2+1:d2+w1) = 1;
 m1(d1+1+h1:d1+2*h1,d2+1:d2+w1) = 2;
 figure(1);
@@ -35,6 +36,7 @@ title('Rectangluar mask for feature 1');
 axis square;
 colormap([128 128 128; 0 0 0; 255 255 255]/255);
 
+% Feature 2
 m2(d3+1:d3+h2,d4+1:d4+w2) = 1;
 m2(d3+1:d3+h2,d4+w2+1:d4+w2+w3) = 2;
 m2(d3+1:d3+h2,d4+w2+w3+1:d4+2*w2+w3) = 1;
@@ -48,11 +50,15 @@ colormap([128 128 128; 0 0 0; 255 255 255]/255);
 %% Load image, compute Integral Image and visualize it
 
 % Load image 'NASA1.jpg' and convert image from rgb to grayscale 
-% >> code here <<
+nasa1Rgb = imread('NASA1.bmp');
+%imshow(nasa1Rgb)
+
+I = rgb2gray(nasa1Rgb);
+%imshow(I)
 
 % Compute the Integral Image
-% >> code to compute the integral image S <<
-
+S = cumsum(cumsum(double(I),2));
+%imshow(S, []);  % Rescale 
 
 
 %% Compute features for regions with faces
@@ -79,9 +85,9 @@ for i = 1:size(XY_FACE,1)
     % compute area of regions C, D and E for the second feature
     % HERE WE USE INTEGRAL IMAGE!
     % >> code to compute the area of regions C and E <<
-    %     area_C = ...
-    %     area_D = ...
-    %     area_E = ...
+    area_C = S(y+d3+h2,x+d4+w2) -       S(y+d3+h2,x+d4) -       S(y+d3,x+d4+w2) +       S(y+d3,x+d4);
+    area_D = S(y+d3+h2,x+d4+w2+w3) -    S(y+d3+h2,x+d4+w2) -    S(y+d3,x+d4+w2+w3) +    S(y+d3,x+d4+w2); 
+    area_E = S(y+d3+h2,x+d4+w2+w3+w2) - S(y+d3+h2,x+d4+w2+w3) - S(y+d3,x+d4+w2+w3+w2) + S(y+d3,x+d4+w2+w3);
     
     
     % compute features value
@@ -116,10 +122,10 @@ for i = 1:size(XY_NON_FACE,1)
     % compute area of regions C, D and E for the second feature
     % HERE WE USE INTEGRAL IMAGE!
     % >> code to compute the area of regions C and E <<
-    %     area_C = ...
-    %     area_D = ...
-    %     area_E = ...
-    
+    area_C = S(y+d3+h2,x+d4+w2) -       S(y+d3+h2,x+d4) -       S(y+d3,x+d4+w2) +       S(y+d3,x+d4);
+    area_D = S(y+d3+h2,x+d4+w2+w3) -    S(y+d3+h2,x+d4+w2) -    S(y+d3,x+d4+w2+w3) +    S(y+d3,x+d4+w2); 
+    area_E = S(y+d3+h2,x+d4+w2+w3+w2) - S(y+d3+h2,x+d4+w2+w3) - S(y+d3,x+d4+w2+w3+w2) + S(y+d3,x+d4+w2+w3);
+
     % compute features value
     F1 = area_B - area_A;
     F2 = area_D - (area_C + area_E);
@@ -168,27 +174,38 @@ end
 %% Define the new regions of the test image 
 
 % Load image 'NASA2.bmp' and convert image from rgb to grayscale 
-% >> code here <<
+nasa2Rgb = imread('NASA2.bmp');
+% imshow(nasa2Rgb)
 
-% Select regions with FACES and NON-FACES
-figure(), imshow(I);
-[x1, y1] = ginput();
+I = rgb2gray(nasa2Rgb);
+%imshow(nasa2gray)
+
+% % Select regions with FACES and NON-FACES
+% figure(), imshow(I);
+% [x1, y1] = ginput();
+% x1 = round(x1);
+% y1 = round(y1);
 
 % You could use ginput only once and then copy the coordinates
-% >> copy coordinates here: <<
-% x1 = ...
-% y1 = ...
+x1 = [96;282;447;589;716;885;1042;1175;56;223;394;524;667;797;937;1074;1265;121;350;572;777;1022;1270];
+y1 = [155;156;100;106;117;117;126;117;264;228;197;250;242;221;249;210;193;363;360;373;345;337;343];
+%x1_nonface = [173;336;523;799;1107;164;346;541;765;1006;168;349;614;901;1148];
+%y1_nonface = [18;23;15;18;16;760;768;766;770;755;921;921;898;890;895];
 
-x1 = round(x1);
-y1 = round(y1);
+% % Difficult non faces samples
+x1_nonface = [40;193;816;1282;119;561;680;903;1215];
+y1_nonface = [29;125;22;34;610;506;703;529;874];
 
 % (X,Y) coordinates of the top-left corner of windows with face
-XY_TEST = [x1 y1];
+% XY_TEST = [x1 y1];
+XY_TEST = [[x1;x1_nonface] [y1;y1_nonface]];
 
-  
+
+
+
 %% Compute features for these new regions
 % Compute the Integral Image
-% >> code here <<
+S = cumsum(cumsum(double(I),2));
 
 % Initialize the feature matrix for faces
 FEAT_TEST = [];
@@ -207,10 +224,10 @@ for i = 1:size(XY_TEST,1)
     % compute area of regions C, D and E for the second feature
     % HERE WE USE INTEGRAL IMAGE!
     % >> code to compute the area of regions C and E <<
-    %     area_C = ...
-    %     area_D = ...
-    %     area_E = ...
-    
+    area_C = S(y+d3+h2,x+d4+w2) -       S(y+d3+h2,x+d4) -       S(y+d3,x+d4+w2) +       S(y+d3,x+d4);
+    area_D = S(y+d3+h2,x+d4+w2+w3) -    S(y+d3+h2,x+d4+w2) -    S(y+d3,x+d4+w2+w3) +    S(y+d3,x+d4+w2); 
+    area_E = S(y+d3+h2,x+d4+w2+w3+w2) - S(y+d3+h2,x+d4+w2+w3) - S(y+d3,x+d4+w2+w3+w2) + S(y+d3,x+d4+w2+w3);
+
     % compute features value
     F1 = area_B - area_A;
     F2 = area_D - (area_C + area_E);
@@ -221,11 +238,12 @@ for i = 1:size(XY_TEST,1)
 end
 
 
+
 %% Train a k-nn classifier and test the new windows
 features_train = [FEAT_FACE; FEAT_NON_FACE];
 Group = [repmat(1, length(FEAT_FACE), 1); repmat(2, length(FEAT_NON_FACE), 1)];
 % Call the function knnclassify
-% >> code here <<
+Mdl = fitcknn(features_train, Group, 'NumNeighbors', 2, 'Standardize', 1);
 
 
 %% Visualize samples in the feature space
@@ -239,13 +257,65 @@ ylabel('Feature 2');
 title('Feature space');
 
 % Second, visualize the test samples in two different colors
-% >> code here <<
+figure();
+imshow(I);
+XY_TEST_FACES = [x1 y1];
+% patches with faces
+for i = 1:size(XY_TEST_FACES,1)
+    PATCH = [XY_TEST_FACES(i,:) L L];
+    Rectangle = [PATCH(1) PATCH(2); PATCH(1)+PATCH(3) PATCH(2); PATCH(1)+PATCH(3) PATCH(2)+PATCH(4); PATCH(1)  PATCH(2)+PATCH(4); PATCH(1) PATCH(2)];
+    hold on;
+    plot (Rectangle(:,1), Rectangle(:,2), 'g');
+    hold off;
+end
+
+% patches without faces
+XY_TEST_NONFACES = [x1_nonface y1_nonface];
+for i = 1:size(XY_TEST_NONFACES,1)
+    PATCH = [XY_TEST_NONFACES(i,:) L L];
+    Rectangle = [PATCH(1) PATCH(2); PATCH(1)+PATCH(3) PATCH(2); PATCH(1)+PATCH(3) PATCH(2)+PATCH(4); PATCH(1)  PATCH(2)+PATCH(4); PATCH(1) PATCH(2)];
+    hold on;
+    plot (Rectangle(:,1), Rectangle(:,2), 'r');
+    hold off;
+end
+
+
+
 
 
 %% Visualize classification results in the test image
 
 % Visualize image 'NASA2.bmp' with used regions
-% >> code here <<
+figure();
+imshow(I);
+XY_PREDICTED_CLASS = predict(Mdl,FEAT_TEST);
+XY_CLASS = [repmat(1, length(x1), 1); repmat(2, length(x1_nonface), 1)];
+% patches with faces
+for i = 1:size(XY_TEST,1)
+    PATCH = [XY_TEST(i,:) L L];
+    Rectangle = [PATCH(1) PATCH(2); PATCH(1)+PATCH(3) PATCH(2); PATCH(1)+PATCH(3) PATCH(2)+PATCH(4); PATCH(1)  PATCH(2)+PATCH(4); PATCH(1) PATCH(2)];
+    hold on;
+    if(XY_PREDICTED_CLASS(i) == XY_CLASS(i))
+        PATCH_COLOR = 'g';
+    else
+        PATCH_COLOR = 'r';
+    end
+    plot (Rectangle(:,1), Rectangle(:,2), PATCH_COLOR);
+    hold off;
+end
+
+% First, visualize the training samples:
+figure();
+hold on
+scatter(FEAT_FACE(:,1),FEAT_FACE(:,2),'g');
+scatter(FEAT_NON_FACE(:,1),FEAT_NON_FACE(:,2),'r');
+scatter(FEAT_TEST(XY_CLASS==1,1),FEAT_TEST(XY_CLASS==1,2),'g','x');
+scatter(FEAT_TEST(XY_CLASS==2,1),FEAT_TEST(XY_CLASS==2,2),'r','x');
+xlabel('Feature 1');
+ylabel('Feature 2');
+title('Feature space');
+
+
 
 end
 
