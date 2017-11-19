@@ -1,7 +1,7 @@
 % - - - - - - 
 % MAI CV
 % Exercises Lab 5
-% Author name: 
+% Author name: Emer Rodriguez Formisano and Jorge Alexander
 % - - - - - - 
 % >> OBJECTIVE:
 % 1) Write the code for Exercise 3
@@ -22,21 +22,32 @@ detection_rate = [];
 faceDetector = vision.CascadeObjectDetector();
 videoFileReader = vision.VideoFileReader('Black_or_White_face_Morphing.mp4');
 
-while ~isDone(videoFileReader)
+face_frames = {};
+nonface_frames = {};
+frame = 1;
+while ~isDone(videoFileReader) && frame <= 100
 
     % Extract the next video frame
-    % >> code here <<
+    [I, AUDIO] = step(videoFileReader);  
     
-    
-    % Select a video frame and run the detector.    
-    % >> code here <<
-    
+    % Select a video frame and run the detector.
+    bboxes = step(faceDetector, I);
     
     % Draw the returned bounding box around the detected face.
-    % >> code here <<
+    if(isempty(bboxes))
+        nonface_frames = [nonface_frames {I}];
+    else
+        I = insertObjectAnnotation(I, 'rectangle', bboxes, 'Face');
+        face_frames = [face_frames {I}];
+    end
+    %imshow(I), title('Frame: ' + string(frame));
+    frame = frame + 1;
     
 end
-
+% Frames detected as faces, with some false positives
+imshow([face_frames{2:3};face_frames{10:11};[face_frames{83} face_frames{89}]]);
+% Frames detected as non faces
+imshow([nonface_frames{2:3};nonface_frames{4:5};nonface_frames{7:8}]);
 
 
 end
