@@ -32,20 +32,19 @@ display(ARFace)
 %% Count the number of samples and samples males and females of the data set.
 % This information is in ARFace.gender ==> male == 1, female == 0
 % 1. To complete:
-% NumberMales = ...
-% NumberSamples = ...
-% NumberFemales = ...
+NumberMales = sum(ARFace.gender == 1);
+NumberSamples = size(ARFace.gender, 2);
+NumberFemales = sum(ARFace.gender == 0);
 
 %% Visualize some of the internal faces and save in bmp images
 % Use the function reshape to transform the information from a vector to a
 % matrix.
 % 2. To complete:
 for i=1:10:NumberSamples
-   
-    % >> code here <<
-   
+    im = reshape(ARFace.internal(:, i), ARFace.internalSz);
+    imName = strcat('ARFACE_', num2str(1), '.bmp');
+    imwrite(im, imName);
 end
-
 
 %% Define the training set and test set from the data set using:
 % a. Use the whole data set (an unbalanced problem)
@@ -56,9 +55,9 @@ end
 % Use the "internal" images, we will reduce dimensionality later.
 
 % 3. To complete:
-% images = ...
-% labels = ...
-% subjects = ...
+images = ARFace.internal;
+labels = ARFace.gender;
+subjects = ARFace.person;
     
 %% Atention! We will use the dataset in the representation: Sample x Variables (Samples x 1188):
 images = images';

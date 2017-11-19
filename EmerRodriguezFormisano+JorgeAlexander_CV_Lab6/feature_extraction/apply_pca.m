@@ -2,21 +2,17 @@ function PCAImagesDim = apply_pca(images, dim)
 % APPLY_PCA 
 % PCAImagesDim It returns the matrix with reduced attributes.
 % Each column is an image
-% 
-
 %% PCA
 % Use princomp.m to compute:
 % 4. To complete:
-% [PCACoefficients, PCAImages, PCAValues] = ...
+[PCACoefficients, PCAImages, PCAValues] = princomp(images);
 
 %% Show the 30 first eigenfaces
 % 5. To complete:
-% show_eigenfaces(...);
-
+show_eigenfaces(PCACoefficients(:,1:30));
 %% Plot the explained variance using 100 dimensions
 % 6. To complete:
-% >> code here <<
-
+PCAValues(1:100)
 %% Keep the first 'dim' dimensions where dim is given or computed as the
 %% dimensions necessary to preserve 90% of the data variance.
 if dim>0
@@ -24,7 +20,8 @@ if dim>0
 else
     % Compute the number of dimensions necessary to preserve 95% of the data variance.
     % 7. To complete:
-    % >> code here <<
-    
+    varCumsum = cumsum(PCAValues)./sum(PCAValues);  
+    dim95 = sum(varCumsum <= 0.95);
+    PCAImagesDim = PCAImages(:,1:dim95);
 end
 end

@@ -66,7 +66,8 @@ for i = 1:NFolds
    
     % Train a k-nn classifier and test the test samples using knnclassify.m
     k=2;
-    idx = knnclassify(TestSet', TrainSet', TrainLabels', k);
+    knn = fitcknn(TrainSet', TrainLabels', 'NumNeighbors', k);
+    idx = predict(knn,TestSet');
     Result_labels=idx';
         
     % Compute the classification rates
