@@ -92,7 +92,15 @@ Rates_lda = validation(mat_features_lda', labels', subjects', F);
 display(Rates_lda);
 display(Rates_lda.ConfusionMatrix);
 
-
+% Testing different code values
+for k = 1:10
+    pca = validation(mat_features_pca', labels', subjects', F, k);
+    pca95 = validation(mat_features_pca95', labels', subjects', F, k);
+    lda = validation(mat_features_lda', labels', subjects', F, k);
+    disp(['K=', num2str(k)]);
+    disp(['PCA', num2str(pca.Acc)]);
+    disp(['PCA95', num2str(pca95.Acc)]);
+    disp(['LDA', num2str(lda.Acc)]);
 end
 
 
