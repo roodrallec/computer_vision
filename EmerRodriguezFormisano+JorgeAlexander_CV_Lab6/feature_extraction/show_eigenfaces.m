@@ -21,6 +21,6 @@ end
 
 % Show and save the large image
 imshow(I);
-imwrite(I, 'eigenfaces.bmp', 'bmp');
+imwrite(I, 'eigenfaces.jpg', 'jpg');
 
 end

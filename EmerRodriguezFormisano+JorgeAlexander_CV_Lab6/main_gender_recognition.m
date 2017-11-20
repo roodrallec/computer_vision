@@ -1,7 +1,7 @@
 % - - - - - - 
 % MAI CV
 % Exercises Lab 6
-% Author name: 
+% Author name: Emer Rodriguez Formisano & Jorge Alexander
 % - - - - - - 
 %
 % >> OBJECTIVE: 
@@ -18,15 +18,15 @@ function main_gender_recognition()
 clc; close all; clear;
 
 %% These sub-directories are required
-addpath(genpath('feature_extraction'))
-addpath(genpath('classification'))
+addpath(genpath('feature_extraction'));
+addpath(genpath('classification'));
 
 %% Load database of images and analyze the structure
 ARFace = importdata('ARFace.mat');
 
 %% Prepare the data set samples identifying data and labels (male/female).
 % We will use the internal faces loaded in the structure
-display(ARFace)
+display(ARFace);
 
 
 %% Count the number of samples and samples males and females of the data set.
@@ -42,7 +42,7 @@ NumberFemales = sum(ARFace.gender == 0);
 % 2. To complete:
 for i=1:10:NumberSamples
     im = reshape(ARFace.internal(:, i), ARFace.internalSz);
-    imName = strcat('ARFACE_', num2str(1), '.bmp');
+    imName = strcat('ARFACE_', num2str(i), '.jpg');
     imwrite(im, imName);
 end
 
@@ -84,10 +84,13 @@ mat_features_lda = feature_extraction('LDA', images, labels);
 F = 10;
 Rates_pca = validation(mat_features_pca', labels', subjects', F);
 display(Rates_pca);
+display(Rates_pca.ConfusionMatrix);
 Rates_pca95 = validation(mat_features_pca95', labels', subjects', F);
 display(Rates_pca95);
+display(Rates_pca95.ConfusionMatrix);
 Rates_lda = validation(mat_features_lda', labels', subjects', F);
 display(Rates_lda);
+display(Rates_lda.ConfusionMatrix);
 
 
 end
