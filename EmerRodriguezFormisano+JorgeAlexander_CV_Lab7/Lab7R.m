@@ -1,24 +1,18 @@
 %Lab7Report.m
 
-% Read image
+pool = parpool('local', 4);
+
 animals_rgb = imread('images\animals.jpg');
+imshow(runparallelanalysis(animals_rgb, 4, 60));
 
 
-%pool = parpool('local', 4);
-figure()
-rpa_output = runparallelanalysis(animals_rgb, 2, 120);
-imshow(rpa_output)
+alwin2_rgb = imread('images\alwin2.jpg');
+imshow(runparallelanalysis(alwin2_rgb, 4, 150));
 
-figure()
-rpa_output = runparallelanalysis(animals_rgb, 4, 60);
-imshow(rpa_output)
+bigbang_rgb = imread('images\bigbangfamily.png');
+imshow(runparallelanalysis(bigbang_rgb, 4, 60));
 
-figure()
-rpa_output = runparallelanalysis(animals_rgb, 8, 40);
-imshow(rpa_output)
-%pool.delete
-
-
+pool.delete
 
 %%
 function [imres] = runmethod(im, k, b, usecoord, usemeancolour)
