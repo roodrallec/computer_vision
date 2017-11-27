@@ -1,9 +1,9 @@
-% SNAKE_DEMO Demo showing the usage of snake 
+% SNAKE_DEMO Demo showing the usage of snake
 % CMP Vision Algorithms http://visionbook.felk.cvut.cz
 % Examples
-% 
+%
 % The first example shows how to use snakes to find the inner boundary of the
-% heart cavity in a magnetic resonance image 
+% heart cavity in a magnetic resonance image
 % The initial position of the snake
 % is a small circle located inside the cavity. We will make the snake
 % expand until it reaches the bright wall.
@@ -29,7 +29,7 @@ plot( [x;x(1,1)], [y;y(1,1)], 'r', 'LineWidth',2 );  hold off;
 exportfig(gcf,'output_images/snake_input1.eps') ;
 
 % The external energy is a smoothed version of the image, normalized for
-% convenience 
+% convenience
 
 
 h = fspecial( 'gaussian', 20, 3 );
@@ -38,16 +38,16 @@ f = f-min(f(:));  f = f/max(f(:));
 
 figure(2) ;
 imagesc(f) ; colormap(jet) ; colorbar ;
-axis image ; axis off ; 
+axis image ; axis off ;
 exportfig(gcf,'output_images/snake_energy1.eps') ;
 
-% The external force is a negative gradient of the energy. 
+% The external force is a negative gradient of the energy.
 % We start the snake evolution with alpha=0.1, beta=0.01,
 % kappa=0.2, lambda=0.05.
 % Note that the normalization constant is incorporated into kappa.
 
 
-% The final position of the snake is shown 
+% The final position of the snake is shown
 % We can see that the boundary is well
 % recovered. It is instructive to run the snake evolution for different
 % values of the parameters and note how the evolution speed and the final
@@ -74,7 +74,7 @@ end
 
 %
 % The second example deals with segmenting an object (a bird) in a color
-% image 
+% image
 % This time we set the
 % initial snake position manually around the object using
 % a function snakeinit and let the snake
@@ -84,7 +84,7 @@ end
 % For convenience, the initial snake position can be saved and reloaded
 % later as follows:
 
-% To calculate the external energy 
+% To calculate the external energy
 % the image is first converted into grayscale
 % using a particular linear combination of color channels that
 % emphasizes the difference between the foreground and the
@@ -95,15 +95,15 @@ end
 % with parameters alpha=0.1, beta=0.1, kappa=0.3. Note the
 % negative value of the balloon force coefficient lambda=-0.05 that
 % makes the snake shrink instead of expand (this depends on the clockwise
-% orientation of the snake points). 
-% The final result is shown 
+% orientation of the snake points).
+% The final result is shown
 % Observe that the bird is well
-% delineated, although the snake stops a few pixels away from the boundary. 
-% This behavior is fairly typical for the simple external energy used. 
+% delineated, although the snake stops a few pixels away from the boundary.
+% This behavior is fairly typical for the simple external energy used.
 % It can be partly eliminated by using less smoothing at the expense of
-% robustness. 
+% robustness.
 
-if 1, 
+if 1,
 img=imread([ ImageDir 'bird.png']) ;
 
 
@@ -112,7 +112,7 @@ load birdxy
 figure(4) ;
 clf ; imagesc(img) ; colormap(gray) ; hold on ;
 axis image ; axis off ;
-plot([x;x(1)],[y;y(1)],'r','LineWidth',2) ; 
+plot([x;x(1)],[y;y(1)],'r','LineWidth',2) ;
 hold off ;
 exportfig(gcf,'output_images/snake_input2.eps') ;
 
@@ -124,7 +124,7 @@ f=imfilter(double(f),h,'symmetric') ;
 
 figure(5) ;
 imagesc(f) ; colormap(jet) ; colorbar ;
-axis image ; axis off ; 
+axis image ; axis off ;
 exportfig(gcf,'output_images/snake_energy2.eps') ;
 
 [px,py] = gradient(-f);
@@ -146,4 +146,3 @@ end ;
 % imagesc(img), call snakeinit and use the left mouse button
 % to choose the snake points in a clockwise direction.  The
 % right mouse button picks the last point.
-
