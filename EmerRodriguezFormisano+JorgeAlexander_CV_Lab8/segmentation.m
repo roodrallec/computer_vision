@@ -9,7 +9,7 @@ function fig = segmentation(img, alphaTweak, betaTweak, kappaTweak, lambdaTweak,
   subplotIdx = addSubplot(img, 'Default Values', x, y, subplotIdx) + 3;
   %% Modifying alpha
   subplotIdx = tweakParam('alpha', 1, img, subplotIdx);
-  %% Modifying beta
+  % %% Modifying beta
   subplotIdx = tweakParam('beta', 5, img, subplotIdx);
   %% Modifying kappa
   subplotIdx = tweakParam('kappa', 1, img, subplotIdx);
