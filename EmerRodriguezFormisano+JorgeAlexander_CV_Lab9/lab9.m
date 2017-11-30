@@ -1,35 +1,20 @@
 %% Lab 9
-
-% Reader
-v = VideoReader('Barcelona.mp4');
+clear all;
+v = VideoReader('./materialLab10/Barcelona.mp4');
 num_frames = floor(v.Duration*v.FrameRate);
-
-frame = 1;
-prev_frame = readFrame(v);
-prev_frame_hist = imagehist(prev_frame);
-
-dist = zeros(num_frames-1,1) -1;
-while hasFrame(v)
-    curr_frame = readFrame(v);
-    curr_frame_hist = imagehist(curr_frame);
-    
-    d = norm(curr_frame_hist-prev_frame_hist,2);
-    dist(frame) = d;
-    
-    prev_frame = curr_frame; 
-    prev_frame_hist = curr_frame_hist;
-    frame = frame + 1;
+dist = zeros(num_frames - 1, 1);
+idx = 1;
+prev_hist = imagehist(readFrame(v));
+while hasFrame(v)    
+    curr_hist = imagehist(readFrame(v));
+    dist(idx) = norm(curr_hist - prev_hist, 2);
+    idx = idx + 1;
+    prev_hist = curr_hist;
 end
 
 %% Plot difference vector
 plot(dist)
-
-
-
 %%
-function h = imagehist(frame)
-    hist_R = imhist(frame(:,:,1));
-    hist_G = imhist(frame(:,:,2));
-    hist_B = imhist(frame(:,:,3));
-    h = horzcat([hist_R hist_G hist_B]);  
+function h = imagehist(frame)    
+    h = horzcat([imhist(frame(:,:,1)) imhist(frame(:,:,2)) imhist(frame(:,:,3))]);  
 end
