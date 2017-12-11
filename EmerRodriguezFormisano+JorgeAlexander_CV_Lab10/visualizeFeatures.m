@@ -1,5 +1,5 @@
 function [  ] = visualizeFeatures(textDescArr, format, features)
-    figure();
+    figure();    
     for d=1:length(textDescArr)
         textDesc=textDescArr{d};        
         
@@ -9,4 +9,6 @@ function [  ] = visualizeFeatures(textDescArr, format, features)
         end
     end
     hold off;
+    xlabel('Image idx');
+    ylabel('Mean value of filter convolution');
 end

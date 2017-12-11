@@ -18,7 +18,7 @@ function images = retrieveKImages(imgIdx, imgDirectories, imgFormat, k, color)
     subplot(2, plotSize, 1); imshow(allImages{imgIdx}); title(name);
     
     for i=2:length(IDX)
-        name = strcat('Image similarity: ', num2str(D(i)));
+        name = strcat('Similarity: ', num2str(D(i)));
         subplot(2, plotSize, i); imshow(allImages{IDX(i)}); title(name);
     end    
     images = allImages(IDX);
