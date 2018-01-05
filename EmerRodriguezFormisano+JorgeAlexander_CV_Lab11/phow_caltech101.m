@@ -72,7 +72,7 @@ conf.svm.solver = 'sdca' ;
 
 conf.svm.biasMultiplier = 1 ;
 conf.phowOpts = {'Step', 3} ;
-conf.clobber = false ;
+conf.clobber = true ;
 conf.tinyProblem = true ;
 conf.prefix = 'baseline' ;
 conf.randSeed = 1 ;
@@ -272,8 +272,9 @@ save([conf.resultPath '.mat'], 'confus', 'conf') ;
 % -------------------------------------------------------------------------
 function im = standarizeImage(im)
 % -------------------------------------------------------------------------
-
-im = im2single(im) ;
+% im2single converts image to intensity range 0-1,
+% rescaling where necessary
+im = im2single(im) ; 
 if size(im,1) > 480, im = imresize(im, [480 NaN]) ; end
 
 % -------------------------------------------------------------------------
