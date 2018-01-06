@@ -1,4 +1,4 @@
-function visualizeImgClass(imagePaths, model, words)
+function visualizeImgClass(imagePaths, model)
 %VISUALIZEIMGCLASS 
 % determines image classfication from pre-computed phow classification
 % model
