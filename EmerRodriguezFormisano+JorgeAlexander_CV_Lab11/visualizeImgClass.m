@@ -1,8 +1,7 @@
-function visualizeImgClass(imagePaths, modelPath)
+function visualizeImgClass(imagePaths, model, words)
 %VISUALIZEIMGCLASS 
 % determines image classfication from pre-computed phow classification
 % model
-load(modelPath);
 imCount = length(imagePaths);
 pltRows = ceil(sqrt(imCount));
 pltCols = pltRows;
