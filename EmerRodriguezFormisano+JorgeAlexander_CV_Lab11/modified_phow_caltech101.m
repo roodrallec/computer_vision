@@ -1,4 +1,4 @@
-function modified_phow_caltech101(classOveride)
+function modified_phow_caltech101(classOveride, wordsOveride)
 % PHOW_CALTECH101 Image classification in the Caltech-101 dataset
 %   This program demonstrates how to use VLFeat to construct an image
 %   classifier on the Caltech-101 data. The classifier uses PHOW
@@ -60,6 +60,9 @@ conf.numTrain = 15 ;
 conf.numTest = 15 ;
 conf.numClasses = 102 ;
 conf.numWords = 600 ;
+if exist('wordsOveride', 'var')
+    conf.numWords = wordsOveride;
+end
 conf.numSpatialX = [2 4] ;
 conf.numSpatialY = [2 4] ;
 conf.quantizer = 'kdtree' ;
@@ -168,7 +171,8 @@ if ~exist(conf.vocabPath) || conf.clobber
   descrs = single(descrs) ;
 
   % Quantize the descriptors to get the visual words
-  vocab = vl_kmeans(descrs, conf.numWords, 'verbose', 'algorithm', 'elkan', 'MaxNumIterations', 50) ;
+  vocab = vl_kmeans(descrs, conf.numWords, 'verbose', 'algorithm', 'elkan',...
+      'MaxNumIterations', 50) ;
   save(conf.vocabPath, 'vocab') ;
 else
   load(conf.vocabPath) ;
