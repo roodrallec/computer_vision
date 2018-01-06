@@ -51,8 +51,7 @@ function modified_phow_caltech101(classOveride)
 % This file is part of the VLFeat library and is made available under
 % the terms of the BSD license (see the COPYING file).
 
-appDir = fullfile('/Users/jnalexander/Projects/computer_vision/',...
-    'EmerRodriguezFormisano+JorgeAlexander_CV_Lab11/');
+appDir = fullfile(pwd);
 
 conf.calDir = fullfile(appDir, 'data/caltech-101');
 conf.dataDir = fullfile(appDir, 'data/');
