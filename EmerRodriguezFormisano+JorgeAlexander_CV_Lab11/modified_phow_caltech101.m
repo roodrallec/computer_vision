@@ -188,8 +188,7 @@ end
 if ~exist(conf.histPath) || conf.clobber
   hists = {} ;
   parfor ii = 1:length(images)
-  % for ii = 1:length(images)
-    fprintf('Processing %s (%.2f %%)\n', images{ii}, 100 * ii / length(images)) ;
+  % for ii = 1:length(images)    
     im = imread(fullfile(conf.calDir, images{ii})) ;
     hists{ii} = getImageDescriptor(model, im);
   end
