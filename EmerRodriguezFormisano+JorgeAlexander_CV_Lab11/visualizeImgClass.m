@@ -23,7 +23,7 @@ end
 end
 
 function titleString = buildImgTitle(labelTrue, labelPred)
-    titleString = strcat('True=', labelTrue,' Pred=', labelPred);
+    titleString = {strcat('True=', labelTrue), strcat('Pred=', labelPred)};
 end
 
 function class = getTrueClass(imgDirStr)
