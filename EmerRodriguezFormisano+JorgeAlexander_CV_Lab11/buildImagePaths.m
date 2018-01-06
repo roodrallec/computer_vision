@@ -5,9 +5,9 @@ for dirIdx=2:length(categorySubset)
     imageNames = vertcat(imageNames, directory);
 end
 imagePaths = {};
-for idx=1:imageCount
-    randIdx = randsample(length(imageNames),1);
-    randImg = imageNames(randIdx);
+randIdxs = randsample(length(imageNames), imageCount);
+for idx=1:imageCount    
+    randImg = imageNames(randIdxs(idx));
     path = fullfile(randImg.folder, randImg.name);
     imagePaths{idx} = path;
 end
