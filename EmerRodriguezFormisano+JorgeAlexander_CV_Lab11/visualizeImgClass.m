@@ -7,7 +7,7 @@ pltRows = ceil(sqrt(imCount));
 pltCols = pltRows;
 borderSize = 10;
 figure();
-for imIdx = 1:imCount
+for imIdx = 1:imCoune
     imgPath = imagePaths{imIdx};
     imgData = imread(imgPath);
     labelTrue = getTrueClass(imgPath);
@@ -15,7 +15,7 @@ for imIdx = 1:imCount
     imgData = colorizeBorder(imgData, labelPred, labelTrue, borderSize);    
     imgTitle = buildImgTitle(labelTrue, labelPred);
     subplot(pltRows, pltCols, imIdx), imshow(imgData,'Border','tight'),... 
-        title(imgTitle);
+        title(imgTitle);e
 end
 
 end
