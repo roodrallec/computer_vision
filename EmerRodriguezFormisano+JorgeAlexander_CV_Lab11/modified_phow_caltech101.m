@@ -1,4 +1,4 @@
-function modified_phow_caltech101()
+function modified_phow_caltech101(classOveride)
 % PHOW_CALTECH101 Image classification in the Caltech-101 dataset
 %   This program demonstrates how to use VLFeat to construct an image
 %   classifier on the Caltech-101 data. The classifier uses PHOW
@@ -73,10 +73,9 @@ conf.svm.solver = 'sdca' ;
 conf.svm.biasMultiplier = 1 ;
 conf.phowOpts = {'Step', 3} ;
 conf.clobber = true ;
-conf.tinyProblem = true ;
+conf.tinyProblem = false ;
 conf.prefix = 'baseline' ;
 conf.randSeed = 1 ;
-
 if conf.tinyProblem
   conf.prefix = 'tiny' ;
   conf.numClasses = 5 ;
@@ -124,7 +123,9 @@ end
 classes = dir(conf.calDir) ;
 classes = classes([classes.isdir]) ;
 classes = {classes(3:conf.numClasses+2).name} ;
-
+if (exist('classOveride','var')) 
+    classes = classOveride;
+end
 images = {} ;
 imageClass = {} ;
 for ci = 1:length(classes)

@@ -5,19 +5,20 @@
 %% Load VLFeat and run build phow models
 
 % vl_version;
-run('phow_caltech101.m');
+% run('phow_caltech101.m');
 % % Add a function to visualize the images in a green framework if 
 % the classification is correct and in a red framework if it does not 
-modelPath = 'data/tiny-model.mat';
-imageDir = 'data/caltech-101/101_ObjectCategories/Leopards/';
-imageNames = dir(fullfile(imageDir, '*.jpg'));
-imagePaths = {};
-imgPathIdx=1;
-for imIdx=40:49    
-    imagePaths{imgPathIdx} = fullfile(imageDir, imageNames(imIdx).name);
-    imgPathIdx = imgPathIdx + 1;
+modelPath = 'data/baseline-model.mat';
+imageDir = {...
+    'data/caltech-101/101_ObjectCategories/Leopards/',...
+    'data/caltech-101/101_ObjectCategories/accordion/',...
+    'data/caltech-101/101_ObjectCategories/pizza/',...
+    'data/caltech-101/101_ObjectCategories/Faces/'    
+};
+imageNames = dir(fullfile(imageDir{1}, '*.jpg'));
+for dirIdx=2:length(imageDir)
+    imageNames = vertcat(imageNames, dir(fullfile(imageDir{dirIdx}, '*.jpg')));
 end
-visualizeImgClass(imagePaths, modelPath);
 
 % b) What are the PHOW descriptors? 
 % PHOW Descriptors (Pyramid histogram of visual Words)
