@@ -12,9 +12,9 @@ vl_version;
 %% 
 % a) 
 % 
-% First, train the model with a subset of categories:
+% First, train the model with a subset of categories and load it:
 %%
-categorySubset = { 'Leopards', 'accordion', 'pizza', 'Faces' };
+categorySubset = { 'Leopards', 'accordion', 'pizza', 'Faces', 'laptop', 'tick'};
 modified_phow_caltech101(categorySubset);
 modelPath = fullfile('data','baseline-model.mat');
 load(modelPath);
@@ -25,9 +25,9 @@ load(modelPath);
 % 
 % Choose imageCount random images to classify and draw border around
 % 
-imageCount = 9;
+imageCount = 25;
 imageBaseDir = fullfile('data','caltech-101','101_ObjectCategories');
-imagePaths = buildImagePaths(imageBaseDir, categorySubset);
+imagePaths = buildImagePaths(imageBaseDir, categorySubset, imageCount);
 visualizeImgClass(imagePaths, model);
 %% 
 % b) 
@@ -103,7 +103,7 @@ vocabOriginal = vocab;
 % of the k-means clusters found. From the phow function code:
 
 % vocab = vl_kmeans(descrs, conf.numWords, 'verbose', 'algorithm', 'elkan', 'MaxNumIterations', 50) ;
-imagePaths = buildImagePaths(imageBaseDir, {'Faces'});
+imagePaths = buildImagePaths(imageBaseDir, {'pizza'}, 9);
 visualizeImgClass(imagePaths, model);
 %% 
 % Now we reduce the number of words and see what happens.
@@ -119,4 +119,19 @@ visualizeImgClass(imagePaths, model);
 % Restore original vocab
 vocab = vocabOriginal;
 save(vocabPath, 'vocab');
+%% 
+% 
+% 
+% 				
+% 
+% 			
+% 
+% 		
+% 
+% 	 
+% 
+% 
+% 
+% __
+% 
 % __
