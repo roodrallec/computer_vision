@@ -28,7 +28,7 @@ end
 
 function class = getTrueClass(imgDirStr)
     disp(imgDirStr);
-    dirArr = strsplit(imgDirStr, '/');
+    dirArr = strsplit(imgDirStr, filesep);
     classIdx = length(dirArr) - 1;
     class = dirArr{classIdx};
 end
