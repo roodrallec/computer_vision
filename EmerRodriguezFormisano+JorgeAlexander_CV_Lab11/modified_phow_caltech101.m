@@ -174,7 +174,7 @@ if ~exist(conf.vocabPath) || conf.clobber
   descrs = single(descrs) ;
 
   % Quantize the descriptors to get the visual words
-  vocab = vl_kmeans(descrs, conf.numWords, 'verbose', 'algorithm', 'elkan',...
+  vocab = vl_kmeans(descrs, conf.numWords, 'algorithm', 'elkan',...
       'MaxNumIterations', 50) ;
   save(conf.vocabPath, 'vocab') ;
 else
