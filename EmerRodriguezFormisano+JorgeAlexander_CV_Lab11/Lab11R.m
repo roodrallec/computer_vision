@@ -142,8 +142,7 @@ visualizeImgClass(imagePaths, model);
 % 
 % Code to construct vocabulary:
 %%
-% vocab = vl_kmeans(descrs, conf.numWords, 'algorithm', 'elkan',...
-%       'MaxNumIterations', 50) ;
+% vocab = vl_kmeans(descrs, conf.numWords, 'algorithm', 'elkan', 'MaxNumIterations', 50);
 %% 
 % The image descriptors are passed to the kmeans algorithm as the data to 
 % cluster, and the number of words passed as an argument is used to determine 
@@ -170,13 +169,15 @@ visualizeImgClass(imagePaths, model);
 % once a cluster size has been determined, the whole algorithm has to be re-run 
 % to calculate a new cluster size.
 % 
-% 					
 % 
-% 				
 % 
 % 			
 % 
 % 		
+% 
+% 	 		
+% 
+% 
 % 
 % 	 
 % 
